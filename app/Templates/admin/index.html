@@ -1,0 +1,14 @@
+{% extends "admin/master.html" %}
+
+{%block body%}
+
+    {% if current_user.is_authenticated %}
+
+<!--        <h1>{{current_user.name}}</h1>-->
+            <p>
+                <iframe src="{{url_for('ChuyenTrangContact')}}" width="100%" height="800px"></iframe>
+            </p>
+    {%else%}
+        {% include 'admin/login.html' %}
+    {% endif%}
+{%endblock%}
