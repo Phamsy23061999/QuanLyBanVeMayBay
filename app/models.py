@@ -1,6 +1,6 @@
 from msilib import type_nullable
 
-from sqlalchemy import Column, Integer, String, Float, DateTime, Time, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, String, Float, Time, ForeignKey, Boolean,Date
 from sqlalchemy.orm import relationship
 
 from app import db, admin
@@ -34,6 +34,7 @@ class Admin(db.Model, UserMixin):
 class KhachHang(db.Model):
     __tablename__ = "khachhang"
     id = Column(Integer, primary_key=True, autoincrement=True)
+    Quy_Danh = Column(String(100), nullable=False)
     Ten_Khach_Hang = Column(String(200), nullable=False)
     Dia_Chi = Column(String(200), nullable=True)
     CMND = Column(Integer, nullable=False)
@@ -41,10 +42,16 @@ class KhachHang(db.Model):
     SDT = Column(Integer, nullable=False)
     Ghi_Chu = Column(String(50), nullable=False)
     Phieu_Dat_Cho = relationship('PhieuDatCho', backref='khachhang', lazy=True)
-
+    Hanh_Ly = relationship('HanhLy', backref='khachhang', lazy=True)
     def __str__(self):
         return self.Ten_Khach_Hang
 
+class HanhLy(db.Model):
+    __tablename__ = "hanhly"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    Thong_Tin_Hanh_Ly = Column(String(150),nullable=False)
+
+    Khach_Hang_id = Column(Integer, ForeignKey(KhachHang.id), nullable=False)
 
 class SanBay(db.Model):
     __tablename__ = "sanbay"
@@ -62,7 +69,7 @@ class ChuyenBay(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name=Column(String(100),nullable=False)
     Thoi_Gian_Bay = Column(Time, nullable=True)
-    Ngay_Bay = Column(DateTime, nullable=True)
+    Ngay_Bay = Column(Date, nullable=True)
     So_Luong_Ghe_Loai_1 = Column(Integer, default= 60, nullable=False)
     So_Luong_Ghe_Loai_2 = Column(Integer, default= 70,  nullable=False)
     Gia_Ve_Loai_1 = Column(Float, nullable=False)
@@ -86,8 +93,8 @@ class PhieuDatCho(db.Model):
     Ma_Chuyen_Bay_id = Column(Integer, ForeignKey(ChuyenBay.id), nullable=False)
     Hang_Ve = Column(String(50), nullable=False)
     Gia_Tien = Column(Float, nullable=False)
-    Thoi_Gian_Dat_ve = Column(DateTime, nullable=True)
-    Thoi_Gian_Huy_Ve =Column(DateTime, nullable=False)
+    Thoi_Gian_Dat_ve = Column(Date, nullable=True)
+    Thoi_Gian_Huy_Ve =Column(Date, nullable=False)
     Co_Hieu_Luc = Column(Boolean, nullable=False)
     Ve_id = relationship('Ve', backref='PhieuDatCho', lazy=True)
 
@@ -96,7 +103,7 @@ class LichSuGiaoDich(db.Model):
     __tablename__ = "lichsugiaodich"
     id = Column(Integer, primary_key=True, autoincrement=True)
     Ma_Chuyen_Bay = Column(Integer, ForeignKey(ChuyenBay.id), nullable=False)
-    Ngay_Bay = Column(DateTime, nullable=True)
+    Ngay_Bay = Column(Date, nullable=True)
     Ma_Phieu_Dat_Cho_id = Column(Integer, ForeignKey(PhieuDatCho.id), nullable=False)
 
 
@@ -114,6 +121,7 @@ class Ve(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     Ma_Phieu_Dat_Cho_id = Column(Integer, ForeignKey(PhieuDatCho.id), nullable=False)
     Hang_ve = Column(String(50), nullable=False)
+    Thue = Column(Float, nullable=False)
     Gia_Tien = Column(Float, nullable=False)
 
 class AuthenticatedView(ModelView):

@@ -2,6 +2,8 @@ from flask import  Flask
 from flask_sqlalchemy import SQLAlchemy
 from  flask_admin import  Admin
 from flask_login import LoginManager
+from flask_mail import Mail,Message
+import smtplib
 
 app = Flask(__name__)
 app.secret_key = "Q\xcd&3XO\x00S \xc9\x9c\xfc\x96\xd3q\xaf\x8d"
@@ -13,3 +15,13 @@ db = SQLAlchemy(app=app)
 admin = Admin(app=app,name="Quan Ly Ban Ve May Bay", template_mode="bootstrap3")
 
 login = LoginManager(app=app)
+
+    # DEBUG =True,
+app.config["MAIL_SERVER"] = 'smtp.gmail.com'
+app.config["MAIL_PORT"]= 465
+app.config["MAIL_USE_SSL"] = True
+app.config["MAIL_USE_TLS"] = False
+app.config["MAIL_USERNAME"] = 'phamsy230699@gmail.com'
+app.config["MAIL_PASSWORD"] = '0329623611'
+
+mail = Mail(app)

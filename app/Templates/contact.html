@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html>
     
-<!-- Mirrored from www.tooplate.com/templates/2093_flight/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 28 May 2018 11:20:22 GMT -->
+
 <head>
+    {% block head%}
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<!--
 
-Template 2093 Flight
-
-http://www.tooplate.com/view/2093-flight
-
--->
     	<title>Flight - Contact Page</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,6 +23,7 @@ http://www.tooplate.com/view/2093-flight
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
 
         <script src="{{url_for('static',filename='js/vendor/modernizr-2.8.3-respond-1.4.2.min.js')}}"></script>
+    {% endblock %}
     </head>
 
 <body>
@@ -57,8 +53,10 @@ http://www.tooplate.com/view/2093-flight
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
+                        {% block form %}
                         <h2>Welcome To Page ADMIN</h2>
                         <p> </p>
+                        {% endblock %}
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -126,6 +124,7 @@ http://www.tooplate.com/view/2093-flight
 
 
     <section class="map">
+        {% block map %}
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -141,11 +140,13 @@ http://www.tooplate.com/view/2093-flight
                 </div>
             </div>
         </div>
+        {% endblock %}
     </section>
 
 
 
     <footer>
+        {% block footer %}
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -167,10 +168,9 @@ http://www.tooplate.com/view/2093-flight
                 </div>
             </div>
         </div>
+        {% endblock %}
     </footer>
 
-
-    
 
 
     <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -218,7 +218,7 @@ http://www.tooplate.com/view/2093-flight
         };
     }
     </script>
+
 </body>
 
-<!-- Mirrored from www.tooplate.com/templates/2093_flight/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 28 May 2018 11:20:28 GMT -->
 </html>
