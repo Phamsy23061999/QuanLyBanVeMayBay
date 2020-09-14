@@ -6,10 +6,11 @@ from flask_login import login_user, login_required
 from flask_mysqldb import MySQL
 from mysql import connector
 from flask_mail import Message
+from flask_googlecharts import BarChart
 from app import mail
 
 
-from app import app, login, dao
+from app import app, login, dao, charts
 from app.dao import read_chuyenbay
 from app.models import *
 import hashlib
@@ -42,10 +43,11 @@ def login_admin():
 
 @app.route("/search", methods=['GET', 'POST'] )
 def search():
-    San_Bay_Di = request.form['San_Bay_Di']
-    San_Bay_Den = request.form['San_Bay_Den']
+    if request.method == 'POST':
+        San_Bay_Di = request.form['San_Bay_Di']
+        San_Bay_Den = request.form['San_Bay_Den']
 
-    return render_template("Search.html", chuyenbay = dao.read_chuyenbay(San_Bay_Di=San_Bay_Di,San_Bay_Den=San_Bay_Den))
+        return render_template("Search.html",chuyenbay = dao.read_chuyenbay(San_Bay_Di=San_Bay_Di,San_Bay_Den=San_Bay_Den))
 
 
 @login.user_loader
@@ -54,9 +56,11 @@ def user_load(user_id):
 
 
 
-@app.route("/templates/customer")
+@app.route("/templates/customer",methods=['GET', 'POST'] )
 def info():
+
     return render_template("customer_information.html")
+
 
 @app.route('/insert', methods=['GET','Post'])
 def insert():
@@ -83,6 +87,15 @@ def insert():
 def logout():
     session["user"]=None
     return render_template("index.html")
+
+@app.route("/simple_chart", methods=['GET','Post'] )
+def chart():
+    legend = 'Monthly Data'
+    labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
+    values = [10, 9, 8, 7, 6, 4, 7, 8]
+    return render_template('chart.html', values=values, labels=labels, legend=legend)
+
+
 
 
 if __name__=="__main__":

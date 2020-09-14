@@ -1,8 +1,10 @@
-from flask import  Flask
+from flask import  Flask,Markup
 from flask_sqlalchemy import SQLAlchemy
 from  flask_admin import  Admin
 from flask_login import LoginManager
 from flask_mail import Mail,Message
+from datetime import  time
+from flask_googlecharts import GoogleCharts
 import smtplib
 
 app = Flask(__name__)
@@ -25,3 +27,6 @@ app.config["MAIL_USERNAME"] = 'phamsy230699@gmail.com'
 app.config["MAIL_PASSWORD"] = '0329623611'
 
 mail = Mail(app)
+
+charts = GoogleCharts(app)
+charts.init_app(app)

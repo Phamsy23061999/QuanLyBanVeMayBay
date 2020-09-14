@@ -16,16 +16,13 @@ def read_chuyenbay(San_Bay_Di_id=0,San_Bay_Den_id=0,San_Bay_Di=None,San_Bay_Den=
     if San_Bay_Di and San_Bay_Den:
         chuyenbay = ChuyenBay.query.filter().all()
         for i in range(0, len(chuyenbay)):
-            # # print(San_Bay_Di ==  chuyenbay[i].San_Bay_Di.Ten_San_Bay)
-            # print(San_Bay_Den == chuyenbay[i].San_Bay_Den.Ten_San_Bay)
-            # print(chuyenbay[i].San_Bay_Den)
-
-
             if(San_Bay_Di ==  chuyenbay[i].San_Bay_Di.Ten_San_Bay and San_Bay_Den ==  chuyenbay[i].San_Bay_Den.Ten_San_Bay ):
                 cacchuyenbay.append(chuyenbay[i])
 
+        return cacchuyenbay[0]
 
-    return cacchuyenbay[0]
+
+
 
 def add_Khachhang(Quy_Danh = None, Ten_Khach_Hang = None, Dia_Chi = None, CMND =0, Email = None, SDT = 0, Ghi_Chu=None):
     p = KhachHang(
@@ -33,6 +30,8 @@ def add_Khachhang(Quy_Danh = None, Ten_Khach_Hang = None, Dia_Chi = None, CMND =
     )
     db.session.add(p)
     db.session.commit()
+
+
 
 def read_ChuyenBay_show(San_Bay_Di_id=0, San_Bay_Den_id=0, San_Bay_Di=None, San_Bay_Den=None, latest=False):
     q=ChuyenBay.query
