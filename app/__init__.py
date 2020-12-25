@@ -10,7 +10,7 @@ import smtplib
 
 app = Flask(__name__)
 app.secret_key = "Q\xcd&3XO\x00S \xc9\x9c\xfc\x96\xd3q\xaf\x8d"
-app.config["SQLALCHEMY_DATABASE_URI"] ="mysql+pymysql://root:123456@localhost/qlphongve?charset=utf8mb4"
+app.config["SQLALCHEMY_DATABASE_URI"] ="mysql+pymysql://root:123456@localhost/saleflightticket?charset=utf8mb4"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 db = SQLAlchemy(app=app)
@@ -26,8 +26,8 @@ app.config["MAIL_SERVER"] = 'smtp.gmail.com'
 app.config["MAIL_PORT"]= 465
 app.config["MAIL_USE_SSL"] = True
 app.config["MAIL_USE_TLS"] = False
-app.config["MAIL_USERNAME"] = 'phamsy230699@gmail.com'
-app.config["MAIL_PASSWORD"] = '0329623611'
+app.config["MAIL_USERNAME"] = 'nguyenhoanglonglegend@gmail.com'
+app.config["MAIL_PASSWORD"] = 'legend99'
 
 mail = Mail(app)
 

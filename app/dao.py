@@ -1,9 +1,16 @@
 from tokenize import String
 
+<<<<<<< HEAD
 from app import app, db, sessions
 import os,urllib,uuid,hmac,hashlib
 from flask import jsonify
 from app.models import ChuyenBay, KhachHang, PhieuDatCho
+=======
+from app import app, db
+import os
+import hashlib,uuid, hmac,json, urllib
+from app.models import ChuyenBay, KhachHang
+>>>>>>> f43206efecf8ad49644a8fcfe1b0221b167e2bea
 
 
 def read_chuyenbay(San_Bay_Di_id=0,San_Bay_Den_id=0,San_Bay_Di=None,San_Bay_Den=None):
@@ -46,6 +53,7 @@ def read_ChuyenBay_show(San_Bay_Di_id=0, San_Bay_Den_id=0, San_Bay_Di=None, San_
     return q.all()
 
 
+<<<<<<< HEAD
 
 
 
@@ -65,6 +73,21 @@ def CreateOrderByMOMO( req:ChuyenBay):
     requestType = "captureMoMoWallet"
     extraData = "merchantName=;merchantId="  # pass empty value if your merchant does not have stores else merchantName=[storeName]; merchantId=[storeId] to identify a transaction map with a physical store
 
+=======
+def payment_momo():
+    endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor"
+    partnerCode = "MOMOY1ZA20200907"
+    accessKey = "rVuWIV2U6YHmb803"
+    serectkey = "EQeEkD4sirbclirmqPv5qXDrcLu2h5EZ"
+    orderInfo = "pay with MoMo"
+    returnUrl = "https://momo.vn/return"
+    notifyurl = "https://dummy.url/notify"
+    amount = "2000000"
+    orderId = str(uuid.uuid4())
+    requestId = str(uuid.uuid4())
+    requestType = "captureMoMoWallet"
+    extraData = "merchantName=;merchantId="
+>>>>>>> f43206efecf8ad49644a8fcfe1b0221b167e2bea
     rawSignature = "partnerCode=" + partnerCode + "&accessKey=" + accessKey + "&requestId=" + requestId + "&amount=" + amount + "&orderId=" + orderId + "&orderInfo=" + orderInfo + "&returnUrl=" + returnUrl + "&notifyUrl=" + notifyurl + "&extraData=" + extraData
 
     h = hmac.new(serectkey.encode('utf-8'), rawSignature.encode('utf-8'), hashlib.sha256)
@@ -78,11 +101,16 @@ def CreateOrderByMOMO( req:ChuyenBay):
         'orderId': orderId,
         'orderInfo': orderInfo,
         'returnUrl': returnUrl,
+<<<<<<< HEAD
         'notifyUrl': notifyUrl,
+=======
+        'notifyUrl': notifyurl,
+>>>>>>> f43206efecf8ad49644a8fcfe1b0221b167e2bea
         'extraData': extraData,
         'requestType': requestType,
         'signature': signature
     }
+<<<<<<< HEAD
 
     data = json.dumps(data)
 
@@ -92,10 +120,20 @@ def CreateOrderByMOMO( req:ChuyenBay):
                                  )
     f = urllib.request.urlopen(req)
 
+=======
+    data = json.dumps(data)
+    clen = len(data)
+    req = urllib.request.Request(
+        endpoint,
+        data.encode('utf-8'),
+        {'Content-Type': 'application/json', 'Content-Length': clen}
+    )
+    f = urllib.request.urlopen(req)
+>>>>>>> f43206efecf8ad49644a8fcfe1b0221b167e2bea
     response = f.read()
     f.close()
     return json.loads(response)
 
 
 if __name__ == "__main__":
-    print(read_chuyenBay())
+    print(read_chuyenbay())

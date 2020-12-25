@@ -17,7 +17,6 @@ from flask_wtf import FlaskForm
 from wtforms import SelectField
 
 
-
 class Admin(db.Model, UserMixin):
     __tablename__ = "admin"
 
@@ -26,6 +25,7 @@ class Admin(db.Model, UserMixin):
     active = Column(Boolean, default=True)
     username = Column(String(50), nullable=False)
     password = Column(String(50), nullable=False)
+    Ve_id = relationship('Ve', backref='admin', lazy=True)
 
 
     def __str__(self):
@@ -58,7 +58,7 @@ class SanBay(db.Model):
     __tablename__ = "sanbay"
     id = Column(Integer, primary_key=True, autoincrement=True)
     Ten_San_Bay = Column(String(100), nullable=True)
-    San_Bay_Trung_Gian = relationship('SanBayTrungGian', backref='sanbay', lazy=False)
+
     chuyen_bay = db.relationship('ChuyenBay', primaryjoin='or_(SanBay.id==ChuyenBay.San_Bay_Di_id, SanBay.id==ChuyenBay.San_Bay_Den_id)',
                               lazy = False) #'dynamic')
 
@@ -77,7 +77,7 @@ class ChuyenBay(db.Model):
     So_Luong_Ghe_Loai_2 = Column(Integer, default= 70,  nullable=False)
     Gia_Ve_Loai_1 = Column(Float, nullable=False)
     Phieu_Dat_Cho_id = relationship('PhieuDatCho', backref='chuyenbay', lazy=True)
-    San_Bay_TG_id = relationship('SanBayTrungGian', backref='chuyenbay', lazy=True)
+
 
     San_Bay_Di_id = Column(Integer, ForeignKey('sanbay.id'), nullable=False)
     San_Bay_Den_id = Column(Integer, ForeignKey('sanbay.id'), nullable=False)
@@ -87,6 +87,7 @@ class ChuyenBay(db.Model):
 
     def __str__(self):
         return self.name
+
 
 class PhieuDatCho(db.Model):
     __tablename__ = "phieudatcho"
@@ -109,37 +110,32 @@ class LichSuGiaoDich(db.Model):
     Ma_Phieu_Dat_Cho_id = Column(Integer, ForeignKey(PhieuDatCho.id), nullable=False)
 
 
-class SanBayTrungGian(db.Model):
-    __tablename__ = "sanbaytrunggian"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    San_Bay_Id = Column(Integer, ForeignKey(SanBay.id), nullable=False)
-    Ma_Chuyen_Bay = Column(Integer, ForeignKey(ChuyenBay.id), nullable=False)
-    Thoi_Gian_Dung_Toi_Thieu = Column(Time, nullable=False)
-    Thoi_Gian_Dung_Toi_Da = Column(Time, nullable=False)
-
 
 class Ve(db.Model):
     __tablename__ = "ve"
     id = Column(Integer, primary_key=True, autoincrement=True)
     Ma_Phieu_Dat_Cho_id = Column(Integer, ForeignKey(PhieuDatCho.id), nullable=False)
+<<<<<<< HEAD
     Thoi_Gian_Dat_ve = Column(Date, nullable=True)
+=======
+    Ma_Ghe = Column(String(50), nullable=False)
+    Hang_ve = Column(String(50), nullable=False)
+    Thue = Column(Float, nullable=False)
+>>>>>>> f43206efecf8ad49644a8fcfe1b0221b167e2bea
     Gia_Tien = Column(Float, nullable=False)
+    Account_id= Column(Integer, ForeignKey(Admin.id),nullable=False)
+
 
 class AuthenticatedView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated
+
 
 class SanBayModelView(AuthenticatedView):
     column_display_pk = True
     can_create = True
     can_export = True
     form_columns = ('Ten_San_Bay',)
-
-class SanBayTGModelView(AuthenticatedView):
-       column_display_pk = True
-       can_create = True
-       can_export = True
-       can_delete = False
 
 
 class ChuyenBayModelView(AuthenticatedView):
@@ -148,6 +144,13 @@ class ChuyenBayModelView(AuthenticatedView):
     form_columns = ('San_Bay_Di','San_Bay_Den','name','Ngay_Bay','Thoi_Gian_Bay','So_Luong_Ghe_Loai_1','Gia_Ve_Loai_1','Thoi_Gian_Ha','Ngay_Ha_Canh')
 
 
+
+<<<<<<< HEAD
+=======
+
+class PhieuDatChoModelView(AuthenticatedView):
+    form_columns = ('Thoi_Gian_Dat_ve','Thoi_Gian_Huy_Ve')
+>>>>>>> f43206efecf8ad49644a8fcfe1b0221b167e2bea
 
 
 class AboutUsView(BaseView):
@@ -199,7 +202,6 @@ class Form(FlaskForm):
 
 
 admin.add_view(SanBayModelView(SanBay, db.session))
-admin.add_view(SanBayTGModelView(SanBayTrungGian, db.session))
 admin.add_view(ChuyenBayModelView(ChuyenBay, db.session))
 admin.add_view(OrderDetail(name ="Chi Tiết Chuyến Bay"))
 admin.add_view(PhieuDatCho_view(name ="Chi Tiết Phiếu Đặt Chỗ"))

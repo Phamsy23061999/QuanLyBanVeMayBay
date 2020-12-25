@@ -1,11 +1,9 @@
 from datetime import datetime
 from symbol import return_stmt
 from tkinter.messagebox import Message
-
 from Tools.scripts.make_ctype import method
 from flask import render_template, redirect, request,session,url_for,jsonify
 from flask_login import login_user, login_required
-from flask_mysqldb import MySQL
 from mysql import connector
 from flask_mail import Message
 from flask_googlecharts import BarChart
@@ -19,7 +17,10 @@ import hashlib
 
 from app.models import Ve
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f43206efecf8ad49644a8fcfe1b0221b167e2bea
 @app.route("/")
 def index():
     form = Form()
@@ -29,6 +30,7 @@ def index():
     return render_template("index.html", form = form, cacchuyenbay1= form.San_Bay_Di.choices, cacchuyenbay2 = form.San_Bay_Den.choices,
                            len1 = len(form.San_Bay_Di.choices), len2=len(form.San_Bay_Den.choices),
                            latest_products = dao.read_ChuyenBay_show(latest=True))
+
 
 @app.route("/login-admin", methods=['GET', 'POST'])
 def login_admin():
@@ -47,9 +49,12 @@ def login_admin():
     return redirect("/admin")
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> f43206efecf8ad49644a8fcfe1b0221b167e2bea
 @app.route("/search", methods=['GET', 'POST'] )
 def search():
     if request.method == 'POST' and 'Ngay_Bay' in request.form:
@@ -71,7 +76,6 @@ def search():
 @login.user_loader
 def user_load(user_id):
     return Admin.query.get(user_id)
-
 
 
 @app.route("/templates/customer",methods=['GET', 'POST'] )
@@ -169,6 +173,7 @@ def insert():
      Email = request.form['Email']
      SDT = request.form['SDT']
      Ghi_Chu = request.form['Ghi_Chu']
+<<<<<<< HEAD
      p = KhachHang(
          Quy_Danh=Quy_Danh, Ten_Khach_Hang=Ten_Khach_Hang, Dia_Chi=Dia_Chi, CMND=CMND, Email=Email, SDT=SDT,
          Ghi_Chu=Ghi_Chu
@@ -211,6 +216,18 @@ def insert():
 
 
 
+=======
+     if request.method == 'POST':
+         msg = Message("Email xác nhận", sender="webbanve@gmail.com", recipients=[Email])
+         msg.html = render_template('email.html',Quy_Danh=Quy_Danh,Ten_Khach_Hang=Ten_Khach_Hang,Dia_Chi = Dia_Chi,
+                                    CMND = CMND,Email = Email,SDT = SDT,Ghi_Chu = Ghi_Chu)
+         mail.send(msg)
+
+     return render_template("customer_information.html",info=dao.add_Khachhang(Quy_Danh=Quy_Danh,
+                                                                               Ten_Khach_Hang=Ten_Khach_Hang,
+                                                                               Dia_Chi = Dia_Chi,CMND = CMND,
+                                                                               Email = Email,SDT = SDT,Ghi_Chu = Ghi_Chu))
+>>>>>>> f43206efecf8ad49644a8fcfe1b0221b167e2bea
 
 
 @app.route("/logout")
@@ -218,6 +235,23 @@ def logout():
     session["user"]=None
     return render_template("index.html")
 
+<<<<<<< HEAD
+=======
+
+@app.route("/simple_chart", methods=['GET','Post'] )
+def chart():
+    legend = 'Monthly Data'
+    labels = ["January", "February", "March", "April", "May", "June", "July", "August"]
+    values = [10, 9, 8, 7, 6, 4, 7, 8]
+    return render_template('admin/abous-us.html', values=values, labels=labels, legend=legend)
+
+
+@app.route("/thanhtoan")
+def payurl():
+
+    return render_template("testmomo.html", res=dao.payment_momo())
+
+>>>>>>> f43206efecf8ad49644a8fcfe1b0221b167e2bea
 
 if __name__=="__main__":
     app.run(debug=True)
