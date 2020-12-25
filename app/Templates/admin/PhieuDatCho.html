@@ -1,0 +1,44 @@
+{% extends "contact.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block form %}
+<div class="latest-product">
+              <table class="table table-responsive">
+                                <tbody>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>Khách Hàng ID</th>
+                                        <th>Mã Chuyến Bay ID</th>
+                                        <th>Gia Tien</th>
+                                        <th>Thời Gian Đặt Vé</th>
+                                        <th>Tình Trạng Chưa Thanh Toán</th>
+                                        <th>Tình Trạng Đã Thanh Toán</th>
+
+                                    </tr>
+                                     {% for p in q %}
+                                    <tr>
+                                        <td>{{p.id}}</td>
+                                        <td>{{p.Khach_Hang_id}}</td>
+                                        <td>{{p.Ma_Chuyen_Bay_id}}</td>
+                                        <td>{{p.Gia_Tien}}</td>
+                                        <td>{{p.Thoi_Gian_Dat_ve}}</td>
+                                        <td><input type = "checkbox" name="Tinh_Trang_Chua_Thanh_Toan" value="p.Tinh_Trang_Chua_Thanh_Toan">Chưa Thanh Toán</td>
+                                        <td><input type = "checkbox" name ="Tinh_Trang_Da_Thanh_Toan" value="p.Tinh_Trang_Da_Thanh_Toan">Đã Thanh Toán</td>
+
+                                    </tr>
+                                 {% endfor %}
+                                </tbody>
+                        </table>
+</div>
+{% endblock %}
+{% block map %}
+{% endblock %}
+{% block footer %}
+     {{ super() }}
+
+
+
+{% endblock %}

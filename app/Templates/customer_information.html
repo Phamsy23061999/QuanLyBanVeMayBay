@@ -2,7 +2,26 @@
 
 {% block head %}
     {{ super() }}
+
     <style type="text/css"></style>
+    <script>
+        $(document).ready( function() {
+        $("td.contribution").each(function() { $(this).html(parseFloat($(this).text()).toLocaleString('en-US', {style: 'currency', currency: 'VND'}));})
+        })
+    </script>
+
+    <script>
+          function hello(){
+            alert("Bạn Đã Mua Vé Thành Công! Mời Bạn Kiểm Tra Email");
+          }
+    </script>
+    <script>
+            function check() {
+              document.getElementById("rad2").checked = true;
+            }
+   </script>
+
+
 {% endblock %}
 {% block form %}
     <h1 style="text-align: center;"><span style="color: #ff0000;">Th&ocirc;ng tin Kh&aacute;ch H&agrave;ng</span></h1>
@@ -17,9 +36,12 @@
         <tbody>
         <tr>
         <td>
+
+            
             <span style="color: #999999;"><strong>Người lớn</strong></span>
         </td>
         <td>
+
             <select name="cmbtitleaut_0">
             <option value="men">&Ocirc;ng</option>
             <option value="woman">B&agrave;</option>
@@ -95,7 +117,7 @@
             </span>
             <br />
             <span style="color: #808080;">
-            <input class="inputs" name="Ten_Khach_Hang" type="text"  />
+            <input class="inputs" name="Ten_Khach_Hang" type="text" required  />
         </span>
         </td>
         </tr>
@@ -105,7 +127,7 @@
                 <span style="font-weight: bold;">Điện thoại</span>
                 <span class="important">(*)</span></span><br />
             <span style="color: #808080;">
-                <input id="SDT" class="inputsad" name="SDT" type="text"  />
+                <input id="SDT" class="inputsad" name="SDT" type="text" required />
             </span>
         </td>
         </tr>
@@ -115,15 +137,15 @@
                 <span style="font-weight: bold;">CMND(Căn Cước)</span>
                 <span class="important">(*)</span></span><br />
             <span style="color: #808080;">
-                <input id="CMND" class="inputsad" name="CMND" type="text" value="" />
+                <input id="CMND" class="inputsad" name="CMND" type="text" value="" required/>
             </span>
         </td>
         </tr>
         <tr>
         <td style="width: 526.4px;" colspan="4">
-            <span style="font-weight: bold; color: #808080;">Email(Vui l&ograve;ng bỏ qua nếu kh&ocirc;ng c&oacute; email)</span>
+            <span style="font-weight: bold; color: #808080;">Email(Vui l&ograve;ng Không bỏ qua mục này)</span>
             <br /><span style="color: #808080;">
-            <input id="Email" class="inputsad" name="Email" type="text" value="" />
+            <input id="Email" class="inputsad" name="Email" type="text" value="" required />
         </span>
         </td>
         </tr>
@@ -131,7 +153,7 @@
         <td style="width: 526.4px;" colspan="4">
             <span style="font-weight: bold; color: #808080;">Địa chỉ</span>
             <br /><span style="color: #808080;">
-            <input id="Dia_Chi" class="inputsad" name="Dia_Chi" type="text" value="" />
+            <input id="Dia_Chi" class="inputsad" name="Dia_Chi" type="text" value="" required />
         </span>
         </td>
         </tr>
@@ -149,11 +171,43 @@
         </tbody>
         </table>
         </fieldset>
-        <div class="box-content">
+         <div style="margin-top:20px">
+
+            <h3 style="text-align: center; "><span style="color: #ff0000">Thông Tin Chuyến Bay</span></h3>
 
 
+
+                                              <table style="border-collapse:collapse;width:100%;margin-bottom:20px">
+            <tbody>
+            <tr>
+                <td colspan="3" style="font-size:12px;font-weight:bold;text-align:left;padding:7px;color:#999;text-transform:uppercase">
+                    <h2 style="text-align:center ;margin:0px;padding:10px;font-size:14px;color: #016fae">
+                          {{San_Bay_Di}} Đến {{San_Bay_Den}}
+                    </h2>
+                </td>
+            </tr>
+            <tr>
+               <td style="color:#d62c25">Giá Vé</td>
+               <td style="text-transform:uppercase" class="contribution">{{Gia_Ve_Loai_1}}.toString()+ "VND"</td>
+               <td>
+
+               </td>
+            </tr>
+            <tr>
+                <td style="color:#d62c25">Cất cánh</td>
+                <td>{{Thoi_Gian_Bay}} <i>{{Ngay_Bay}}</i> </td>
+                <td style="text-align:left">Tại: <strong style="color:#3366cc">{{San_Bay_Di}}</strong></td>
+            </tr>
+            <tr>
+                <td style="color:#d62c25">Hạ cánh</td>
+                <td> {{Thoi_Gian_Ha}} <i>{{Ngay_Ha_Canh}}</i></td>
+                <td style="text-align:left">Tại: <strong style="color:#3366cc"> {{San_Bay_Den}}</strong></td>
+            </tr>
+            </tbody>
+                                              </table>
+<form action="{{url_for('insert')}}" method="POST">
      <h3 class="text-center" style="color: #ff0000;">Chi tiết giá</h3>
-  <div class="box-content">
+     <div class="box-content">
     <table class="infoticket" width="100%" cellpadding="0" cellspacing="0">
 
     <tbody><tr>
@@ -163,15 +217,13 @@
     <td><span>1 Người lớn</span></td>
     <td><b>X</b></td>
     <td style="text-align: right;">
-    <script type="text/javascript">
-    document.write(formatCurrency(199000));
-    </script>199.000 .VND
+        <td class="contribution">{{Gia_Ve_Loai_1}}.VND</td>
     </td>
     <td style="padding:0px;">=</td>
     <td style="text-align: right;">
-   <td>
-        <b>.VND</b>
+        <td class="contribution">{{Gia_Ve_Loai_1}}.VND</td>
     </td>
+    </tr>
 
 
 
@@ -182,44 +234,75 @@
     <td><span>1 Người lớn</span></td>
     <td><b>X</b></td>
     <td style="text-align: right;">
-    <script type="text/javascript">
-    document.write(formatCurrency(
-         730900));
-    </script>730.900 .VND
+        <td>0.VND</td>
     </td>
     <td style="padding:0px;">=</td>
     <td style="text-align: right;">
-    <script type="text/javascript">
-                document.write(formatCurrency(730900));
-                </script>730.900 .VND</td>
+        <td>0.VND </td>
+    </td>
 
     </tr>
 
         <tr class="border-airline"><td colspan="5"></td></tr>
-    <tr>
-    <td><span style="font-weight:bold">Hành Lý</span></td>
-    <td colspan="4" id="valuehanhlyld"><span>0 VND</span></td>
-    </tr>
+
     <tr class="border-airline"><td colspan="5"></td></tr>
      <tr>
      <td><span style="font-weight:bold">Tổng giá</span></td>
 
               <td></td><td></td><td></td>
-     <td id="totalld" style="font-weight:bold; text-align:right"><span data="929900"><script type="text/javascript">
-                document.write(formatCurrency(929900));
-        </script>929.900 .VND</span></td>
+     <td id="totalld" style="font-weight:bold; text-align:right;">
+        <td class="contribution">{{Gia_Ve_Loai_1}}</td>
+
+     </td>
     </tr>
 
     </tbody></table>
     <!-- luot ve-->
       </div>
+    <div class="payment_method">
+        <h3 style="text-align: center;"><span style="color: #ff0000">Chọn phương thức thanh toán</span></h3>
+
+                    <div class="methods-header">
+                               <span class="radPaymentByBank" style="font-weight:bold;display: block;padding: 5px 10px;">
+                               <input type="radio" name="radtranfer" value="radPaymentByPayoo" id="rad6">
+                               <label for="rad6" colspan="5" style="color: #016fae;font-size: 18px;font-weight: bold;">Thanh toán tại các điểm giao dịch và cửa hàng tiện lợi ( Qua cổng MOMO )</label>
+                               </span>
+                               <div class="listpayment" style="padding: 5px 10px;">
+                                 <div class="payoo" style="display: none;">
+                                            <h5>Lưu ý trước khi thanh toán</h5>
+                                            <div class="G62dK">
+                                                <div>
+                                                        <ul>
+                                                            <li>Thanh toán phải được thực hiện theo thời hạn quy định và trong khung giờ kinh doanh của cửa hàng.</li>
+                                                            <li>Để tìm cửa hàng gần bạn nhất, vui lòng <a href="https://payoo.vn/mapv2/public/index.php?verify=true" target="_blank">xem tại đây</a>.</li>
+                                                            <li>Bạn có thể tiến hành thanh toán tại một trong các cửa hàng sau:</li>
+                                                        </ul>
+                                                </div>
+                                                <iframe style="min-height: 300px" width="100%" src="https://payoo.vn/v2/merchants/logo_shop_paylater.php"></iframe>
+                                            </div>
+                                  </div>
+                               </div>
+                        </div>
+
+                    <div class="methods-header">
+                                   <span class="radPaymentAtOffice" style="font-weight:bold;font-weight:bold;display: block;padding: 5px 10px;">
+                                   <input type="radio" name="radtranfer" value="radPaymentAtOffice" checked="checked" id="rad2">
+                                   <label for="rad2" colspan="5" style="color: #016fae;font-size: 18px;font-weight: bold;">Thanh toán tại Vietnam Airlines </label>
+                                   </span>
+                    </div>
+
+             <div class="form-group ">
+            <input type="submit" value="Thanh Toán" class="btn btn-danger" required  onclick="check()" >
+<!--                 onclick="hello()"-->
+        </div>
+
+   </div>
+</form>
 </div>
-    <div class="form-group ">
-        <input type="submit" value="Thanh Toán" onclick="return checkfrom();" class="btn btn-danger" >
-    </div>
 
     </div>
 </form>
+
 
 {% endblock %}
 {% block map %}

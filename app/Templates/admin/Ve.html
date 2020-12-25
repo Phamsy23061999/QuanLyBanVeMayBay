@@ -1,0 +1,40 @@
+{% extends "contact.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block form %}
+<div class="latest-product">
+
+    <form action="{{url_for('insertVe')}}" method="POST">
+              <table class="table table-responsive">
+                                <tbody>
+                                    <tr>
+                                        <th>Mã Phiếu Đặt Chỗ</th>
+                                        <th>Thời Gian Đặt Vé</th>
+                                        <th>Giá Vé </th>
+                                    </tr>
+                                 {% for p in q %}
+                                    <tr>
+                                        <td>{{p.Ma_Phieu_Dat_Cho_id}}</td>
+                                         <td>{{p.Thoi_Gian_Dat_ve}}</td>
+                                        <td>{{p.Gia_Tien}}</td>
+                                    </tr>
+                                 {% endfor %}
+                                </tbody>
+                        </table>
+    </form>
+
+
+
+</div>
+{% endblock %}
+{% block map %}
+{% endblock %}
+{% block footer %}
+     {{ super() }}
+
+
+
+{% endblock %}

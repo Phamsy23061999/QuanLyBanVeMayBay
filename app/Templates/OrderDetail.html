@@ -1,0 +1,46 @@
+{% extends "contact.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block form %}
+<div class="latest-product">
+     <form action="{{url_for('insertVe')}}" method="POST">
+              <table class="table table-responsive">
+                                <tbody>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>Khách Hàng ID</th>
+                                        <th>Mã Chuyến Bay ID</th>
+                                        <th>Gia Tien</th>
+                                        <th>Thời Gian Đặt Vé</th>
+                                        <th>Tình Trạng Chưa Thanh Toán</th>
+                                        <th>Tình Trạng Đã Thanh Toán</th>
+
+                                    </tr>
+                                     {% for p in q %}
+                                    <tr>
+                                        <td><input type = "hidden" name="Ma_Phieu_Dat_Cho_id" value = {{p.id}}>{{p.id}}</td>
+                                        <td><input type = "hidden" name="Khach_Hang_id" value = {{p.Khach_Hang_id}}>{{p.Khach_Hang_id}}</td>
+                                        <td><input type = "hidden" name="Ma_Chuyen_Bay_id" value = {{p.Ma_Chuyen_Bay_id}}>{{p.Ma_Chuyen_Bay_id}}</td>
+                                        <td><input type = "hidden" name="Gia_Tien" value = {{p.Gia_Tien}}>{{p.Gia_Tien}}</td>
+                                        <td><input type = "hidden" name="Thoi_Gian_Dat_ve" value = {{p.Thoi_Gian_Dat_ve}}>{{p.Thoi_Gian_Dat_ve}}</td>
+                                        <td><input type = "checkbox" name="Tinh_Trang_Chua_Thanh_Toan" value={{p.Tinh_Trang_Chua_Thanh_Toan}}>Chưa Thanh Toán</td>
+                                        <td><input type = "checkbox" name ="Tinh_Trang_Da_Thanh_Toan" value={{p.Tinh_Trang_Da_Thanh_Toan}}>Đã Thanh Toán</td>
+                                        <td><input type="submit" class="btn btn-default btn-xs" value="Xác Nhận" ></input></td>
+                                    </tr>
+                                 {% endfor %}
+                                </tbody>
+                        </table>
+         </form>
+</div>
+{% endblock %}
+{% block map %}
+{% endblock %}
+{% block footer %}
+     {{ super() }}
+
+
+
+{% endblock %}

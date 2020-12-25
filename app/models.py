@@ -1,5 +1,6 @@
 from msilib import type_nullable
 
+from flask.views import MethodView
 from sqlalchemy import Column, Integer, String, Float, Time, ForeignKey, Boolean,Date
 from sqlalchemy.orm import relationship
 
@@ -70,10 +71,11 @@ class ChuyenBay(db.Model):
     name=Column(String(100),nullable=False)
     Thoi_Gian_Bay = Column(Time, nullable=True)
     Ngay_Bay = Column(Date, nullable=True)
+    Thoi_Gian_Ha = Column(Time, nullable=True)
+    Ngay_Ha_Canh = Column(Date, nullable=True)
     So_Luong_Ghe_Loai_1 = Column(Integer, default= 60, nullable=False)
     So_Luong_Ghe_Loai_2 = Column(Integer, default= 70,  nullable=False)
     Gia_Ve_Loai_1 = Column(Float, nullable=False)
-    Gia_Ve_Loai_2 = Column(Float, nullable=False)
     Phieu_Dat_Cho_id = relationship('PhieuDatCho', backref='chuyenbay', lazy=True)
     San_Bay_TG_id = relationship('SanBayTrungGian', backref='chuyenbay', lazy=True)
 
@@ -91,11 +93,11 @@ class PhieuDatCho(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     Khach_Hang_id = Column(Integer, ForeignKey(KhachHang.id), nullable=False)
     Ma_Chuyen_Bay_id = Column(Integer, ForeignKey(ChuyenBay.id), nullable=False)
-    Hang_Ve = Column(String(50), nullable=False)
     Gia_Tien = Column(Float, nullable=False)
     Thoi_Gian_Dat_ve = Column(Date, nullable=True)
-    Thoi_Gian_Huy_Ve =Column(Date, nullable=False)
-    Co_Hieu_Luc = Column(Boolean, nullable=False)
+    #Thoi_Gian_Huy_Ve =Column(Date, nullable=False)
+    Tinh_Trang_Chua_Thanh_Toan = Column(Integer, nullable= True, default=0)
+    Tinh_Trang_Da_Thanh_Toan = Column(Integer, nullable= True,default= 1)
     Ve_id = relationship('Ve', backref='PhieuDatCho', lazy=True)
 
 
@@ -120,8 +122,7 @@ class Ve(db.Model):
     __tablename__ = "ve"
     id = Column(Integer, primary_key=True, autoincrement=True)
     Ma_Phieu_Dat_Cho_id = Column(Integer, ForeignKey(PhieuDatCho.id), nullable=False)
-    Hang_ve = Column(String(50), nullable=False)
-    Thue = Column(Float, nullable=False)
+    Thoi_Gian_Dat_ve = Column(Date, nullable=True)
     Gia_Tien = Column(Float, nullable=False)
 
 class AuthenticatedView(ModelView):
@@ -144,30 +145,53 @@ class SanBayTGModelView(AuthenticatedView):
 class ChuyenBayModelView(AuthenticatedView):
     can_create = True
     can_export = True
-    form_columns = ('San_Bay_Di','San_Bay_Den','name','Ngay_Bay','Thoi_Gian_Bay','So_Luong_Ghe_Loai_1','So_Luong_Ghe_Loai_2','Gia_Ve_Loai_1','Gia_Ve_Loai_2')
+    form_columns = ('San_Bay_Di','San_Bay_Den','name','Ngay_Bay','Thoi_Gian_Bay','So_Luong_Ghe_Loai_1','Gia_Ve_Loai_1','Thoi_Gian_Ha','Ngay_Ha_Canh')
 
-class PhieuDatChoModelView(AuthenticatedView):
-    form_columns = ('Thoi_Gian_Dat_ve','Thoi_Gian_Huy_Ve')
+
+
 
 class AboutUsView(BaseView):
     @expose("/")
     def index(self):
-        return self.render("admin/about-us.html")
+        return self.render("admin/chart.html")
 
     def is_accessible(self):
         return current_user.is_authenticated
 
+class OrderDetail(BaseView):
+    @expose("/")
+    def index(self):
+        q = ChuyenBay.query.all()
+        return self.render("admin/OrderDetail.html",q=q)
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+
+class PhieuDatCho_view(BaseView):
+    @expose("/")
+    def phieudatcho(self):
+        q = PhieuDatCho.query.all()
+        return self.render("admin/PhieuDatCho.html",q=q)
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+
+class Ve_view(BaseView):
+    @expose("/")
+    def Ve(self):
+        q = Ve.query.all()
+        return self.render("admin/Ve.html",q=q)
+    def is_accessible(self):
+        return current_user.is_authenticated
 
 class LogoutView(BaseView):
     @expose("/")
     def index(self):
-         
         logout_user()
         return redirect("/admin")
 
     def is_accessible(self):
         return current_user.is_authenticated
-
 
 class Form(FlaskForm):
     San_Bay_Di = SelectField('San_Bay_Di', choices=[])
@@ -177,8 +201,12 @@ class Form(FlaskForm):
 admin.add_view(SanBayModelView(SanBay, db.session))
 admin.add_view(SanBayTGModelView(SanBayTrungGian, db.session))
 admin.add_view(ChuyenBayModelView(ChuyenBay, db.session))
-admin.add_view(PhieuDatChoModelView(PhieuDatCho, db.session))
+admin.add_view(OrderDetail(name ="Chi Tiết Chuyến Bay"))
+admin.add_view(PhieuDatCho_view(name ="Chi Tiết Phiếu Đặt Chỗ"))
+admin.add_view(Ve_view(name ="Chi Tiết Số Lượng Vé"))
 admin.add_view(AboutUsView(name="Thống Kê"))
 admin.add_view(LogoutView(name="Logout"))
+
+
 if __name__ == "__main__":
     db.create_all()

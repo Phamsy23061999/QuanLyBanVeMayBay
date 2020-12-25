@@ -1,0 +1,44 @@
+{% extends "contact.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block form %}
+<div class="latest-product">
+              <table class="table table-responsive">
+                                <tbody>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>Tên Chuyến Bay</th>
+                                        <th>Thời Gian Bay</th>
+                                        <th>Ngày Bay</th>
+                                        <th>Ngày Hạ Cánh</th>
+                                        <th>Thời Gian Hạ Cánh</th>
+                                        <th>Số Lượng Ghế Loại 1</th>
+                                        <th>Giá Vé </th>
+                                    </tr>
+                                     {% for p in q %}
+                                    <tr>
+                                        <td>{{p.id}}</td>
+                                        <td>{{p.name}}</td>
+                                        <td>{{p.Thoi_Gian_Bay}}</td>
+                                        <td>{{p.Ngay_Bay}}</td>
+                                        <td>{{p.Ngay_Ha_Canh}}</td>
+                                        <td>{{p.Thoi_Gian_Ha}}</td>
+                                        <td>{{p.So_Luong_Ghe_Loai_1}}</td>
+                                        <td>{{p.Gia_Ve_Loai_1}}</td>
+                                    </tr>
+                                 {% endfor %}
+                                </tbody>
+                        </table>
+</div>
+{% endblock %}
+{% block map %}
+{% endblock %}
+{% block footer %}
+     {{ super() }}
+
+
+
+{% endblock %}

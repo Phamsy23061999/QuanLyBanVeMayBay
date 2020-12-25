@@ -48,18 +48,8 @@
                             </ul>
                         </div>
                         <div class="page-direction-button">
-                            <a href="#"><i class="fa fa-phone"></i>Contact Us Now</a>
+                            <a href="{{ url_for('login_admin')}}"><i class="fa fa-phone"></i>Login Admin</a>
                         </div>
-                        <p>
-                              <a href="{{ url_for('login_admin')}}" class="btn btn-info btn-lg">
-                              <span class="glyphicon glyphicon-user"></span> Login
-                            </a>
-                            <a href="{{ url_for('logout')}}" class="btn btn-info btn-lg">
-                              <span class="glyphicon glyphicon-user"></span> Logout
-                            </a>
-                        </p>
-
-
 
                     </div>
                 </div>
@@ -73,23 +63,35 @@
                                         <div class="col-md-6">
                                             <fieldset>
                                                 <label for="from">From:</label>
-
-                                                <select id="San_Bay_Di" class="form-control" name="San_Bay_Di">
                                                     {%for i in range(0, len1)%}
-                                                       <option value="{{cacchuyenbay1[i]}}">{{cacchuyenbay1[i].Ten_San_Bay}}</option>
+                                                     <input type="hidden" name ="San_Bay_Di_Id" value="{{cacchuyenbay1[i].id}}">
                                                     {%endfor%}
 
-                                                </select>
+                                                   <select id="San_Bay_Di" class="form-control" name="San_Bay_Di">
+                                                       {%for i in range(0, len1)%}
+
+                                                       <option value="{{cacchuyenbay1[i]}}">{{cacchuyenbay1[i].Ten_San_Bay}}</option>
+                                                         {%endfor%}
+
+
+                                                  </select>
+
 
                                             </fieldset>
                                         </div>
                                         <div class="col-md-6">
                                             <fieldset>
                                                 <label for="to">To:</label>
+                                                {%for i in range(0, len1)%}
+                                                     <input type="hidden" name ="San_Bay_Den_Id" value="{{cacchuyenbay2[i].id}}">
+                                                {%endfor%}
+
                                                  <select id="San_Bay_Den" class="form-control" name="San_Bay_Den">
                                                     {%for i in range(0, len2)%}
                                                        <option value="{{cacchuyenbay2[i]}}">{{cacchuyenbay2[i].Ten_San_Bay}}</option>
+
                                                     {%endfor%}
+
                                                 </select>
 
                                             </fieldset>
@@ -103,7 +105,7 @@
                                         <div class="col-md-6">
                                             <fieldset>
                                                 <label for="return">Return date:</label>
-                                                <input name="return" type="datetime-local" class="form-control date" id="return" placeholder="Select date..." required="" onchange='this.form.()'>
+                                                <input name="return" type="datetime-local" class="form-control date"  placeholder="Select date...">
                                             </fieldset>
                                         </div>
                                         <div class="col-md-6">
@@ -115,7 +117,7 @@
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 col-xs-6">
                                                         <label for="oneway">Oneway</label>
-                                                        <input type="radio" name="trip" id="oneway" value="one-way" required="required"onchange='this.form.()'>
+                                                        <input type="radio" name="trip" id="oneway" value="one-way" onchange='this.form.()'>
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,31 +144,39 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="latest-product">
-                        <h1 class="text-center"  style="color: #ff0000;" >Các Chuyến Bay Gần Nhất</h1>
-                        {% for p in latest_products %}
-                        <table class="table table-responsive">
+                        <h1 class="text-center"  style="color: #ff0000;" > Nearest Flight</h1>
+
+                        <form action="{{url_for('info')}}" method="POST">
+                            <table class="table table-responsive">
                                 <tbody>
                                     <tr>
                                         <th>Sân Bay Đi</th>
                                         <th>Sân Bay Đến</th>
                                         <th>Thời Gian Bay</th>
+                                        <th>Thời Gian Hạ Cánh</th>
                                         <th>Ngày Bay</th>
-                                        <th>Giá Vé Hạng 1</th>
-                                        <th>Giá Vé Hạng 2</th>
+                                        <th>Ngày Hạ Cánh</th>
+                                        <th>Giá Vé </th>
+
                                     </tr>
+                                     {% for p in latest_products %}
                                     <tr>
+                                       <input type="hidden" name="id" value="{{p.id}}">
+                                        <input type="hidden" name="So_Luong_Ghe_Loai_1" value="{{p.So_Luong_Ghe_Loai_1}}">
                                         <td>{{p.San_Bay_Di}}</td>
                                         <td>{{p.San_Bay_Den}}</td>
-                                        <td>{{p.Thoi_Gian_Bay}}</td>
+                                        <td><input type = "hidden" name="Thoi_Gian_Bay" value = {{p.Thoi_Gian_Bay}}>{{p.Thoi_Gian_Bay}}</td>
+                                        <td><input type = "hidden" name="Thoi_Gian_Ha" value = {{p.Thoi_Gian_Ha}}>{{p.Thoi_Gian_Ha}}</td>
                                         <td>{{p.Ngay_Bay}}</td>
-                                        <td><input type = "checkbox" name= "giave" value="Giaveloai1">{{p.Gia_Ve_Loai_1}}</td>
-                                        <td><input type = "checkbox" name= "giave" value="Giaveloai1">{{p.Gia_Ve_Loai_2}}</td>
-
-                                        <td><a role="button" class="btn btn-default btn-xs" href="{{url_for('info')}}">Đặt Ngay</a></td>
+                                        <td><input type = "hidden" name="Ngay_Ha_Canh" value = {{p.Ngay_Ha_Canh}}>{{p.Ngay_Ha_Canh}}</td>
+                                        <td><input type = "checkbox" name= "Gia_Ve_Loai_1" value="{{p.Gia_Ve_Loai_1}}">{{p.Gia_Ve_Loai_1}}</td>
+                                        <td><input type="submit" class="btn btn-default btn-xs " value="Đặt Ngay"></input></td>
                                     </tr>
+                                {% endfor %}
                                 </tbody>
-                        </table>
-                        {% endfor %}
+                            </table>
+                        </form>
+
                     </div>
                     <div class="section-heading">
                         <h2>Check Weather For 5 NEXT Days</h2>

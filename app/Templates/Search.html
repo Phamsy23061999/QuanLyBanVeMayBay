@@ -6,36 +6,48 @@
 
 {% block form %}
 <div class="latest-product">
-
+    <form action="{{url_for('info')}}" method="POST">
               <table class="table table-responsive">
                                 <tbody>
                                     <tr>
                                         <th>Sân Bay Đi</th>
                                         <th>Sân Bay Đến</th>
                                         <th>Thời Gian Bay</th>
+                                        <th>Thời Gian Hạ Cánh</th>
                                         <th>Ngày Bay</th>
-                                        <th>Giá Vé Hạng 1</th>
-                                        <th>Giá Vé Hạng 2</th>
+                                        <th>Ngày Hạ Cánh</th>
+                                        <th>Giá Vé </th>
                                     </tr>
                                     <tr>
+                                         <input type="hidden" name="id" value="{{chuyenbay.id}}">
+                                         <input type="hidden" name="So_Luong_Ghe_Loai_1" value="{{chuyenbay.So_Luong_Ghe_Loai_1}}">
                                         <td>{{chuyenbay.San_Bay_Di}}</td>
                                         <td>{{chuyenbay.San_Bay_Den}}</td>
-                                        <td>{{chuyenbay.Thoi_Gian_Bay}}</td>
+                                        <td><input type = "hidden" name="Thoi_Gian_Bay" value = {{chuyenbay.Thoi_Gian_Bay}}>{{chuyenbay.Thoi_Gian_Bay}}</td>
+                                        <td><input type = "hidden" name="Thoi_Gian_Ha" value = {{chuyenbay.Thoi_Gian_Ha}}>{{chuyenbay.Thoi_Gian_Ha}}</td>
                                         <td>{{chuyenbay.Ngay_Bay}}</td>
-                                        <td><input type = "checkbox" name= "Gia_Ve_Loai_1" value = "Gia_Ve_Loai_1">{{chuyenbay.Gia_Ve_Loai_1}}</td>
-                                        <td><input type = "checkbox" name= "Gia_Ve_Loai_2" value= "Gia_Ve_Loai_2">{{chuyenbay.Gia_Ve_Loai_2}}</td>
-
-                                        <td><a role="button" class="btn btn-default btn-xs" href="{{url_for('info')}}">Đặt Ngay</a></td>
+                                        <td><input type = "hidden" name="Ngay_Ha_Canh" value = {{chuyenbay.Ngay_Ha_Canh}}>{{chuyenbay.Ngay_Ha_Canh}}</td>
+                                        <td><input type = "checkbox" name= "Gia_Ve_Loai_1" value = {{chuyenbay.Gia_Ve_Loai_1}}>{{chuyenbay.Gia_Ve_Loai_1}}</td>
+                                        <td><input type="submit" class="btn btn-default btn-xs" value="Đặt Ngay" ></input></td>
                                     </tr>
                                 </tbody>
                         </table>
+    </form>
+
 
 </div>
+
+
+
+
 {% endblock %}
 {% block map %}
 {% endblock %}
 {% block footer %}
      {{ super() }}
+
+
+
 {% endblock %}
 
 

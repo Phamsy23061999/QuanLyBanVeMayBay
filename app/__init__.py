@@ -1,10 +1,11 @@
-from flask import  Flask,Markup
+from flask import  Flask,Markup,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from  flask_admin import  Admin
 from flask_login import LoginManager
 from flask_mail import Mail,Message
 from datetime import  time
 from flask_googlecharts import GoogleCharts
+from flask_session import sessions
 import smtplib
 
 app = Flask(__name__)
@@ -18,7 +19,9 @@ admin = Admin(app=app,name="Quan Ly Ban Ve May Bay", template_mode="bootstrap3")
 
 login = LoginManager(app=app)
 
-    # DEBUG =True,
+ # DEBUG =True,
+
+
 app.config["MAIL_SERVER"] = 'smtp.gmail.com'
 app.config["MAIL_PORT"]= 465
 app.config["MAIL_USE_SSL"] = True
